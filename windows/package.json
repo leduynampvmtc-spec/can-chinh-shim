@@ -1,0 +1,21 @@
+{
+  "name": "can-chinh-shim",
+  "productName": "Can chinh Shim",
+  "version": "1.1.0",
+  "description": "Tinh shim can chinh dong tam Rim - Face. Nguoi tao: Le Duy Nam - Truong Cao dang Dau khi",
+  "author": "Le Duy Nam",
+  "main": "main.js",
+  "scripts": { "dist": "electron-builder --win portable --publish never" },
+  "devDependencies": {
+    "electron": "31.7.7",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "vn.pvcollege.canchinhshim",
+    "productName": "Can chinh Shim",
+    "copyright": "Le Duy Nam - Truong Cao dang Dau khi",
+    "files": ["main.js", "index.html", "icon.png"],
+    "win": { "target": "portable", "icon": "icon.ico" },
+    "portable": { "artifactName": "CanChinhShim-Windows-${version}.exe" }
+  }
+}
