@@ -1,0 +1,69 @@
+name: Build ung dung Can chinh Shim
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - run: gradle --no-daemon assembleRelease
+      - run: cp app/build/outputs/apk/release/app-release.apk CanChinhShim-Android-1.1.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: android/CanChinhShim-Android-1.1.apk
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: windows
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npx electron-builder --win portable --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: windows/dist/*.exe
+
+  release:
+    needs: [ android, windows ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.1-build${{ github.run_number }}
+          name: Căn chỉnh Shim v1.1 (build ${{ github.run_number }})
+          body: |
+            Ứng dụng tính shim căn chỉnh đồng tâm Rim – Face, bơm Ebara 100×80 FSJA.
+            Người viết ứng dụng: Giảng viên Lê Duy Nam – Trường Cao đẳng Dầu khí (PV College).
+            • Android: tải file CanChinhShim-Android-1.1.apk về điện thoại rồi mở để cài.
+            • Windows: tải file CanChinhShim-Windows-1.1.0.exe, chạy trực tiếp, không cần cài đặt.
+            • iPhone: mở https://leduynampvmtc-spec.github.io/can-chinh-sim/ bằng Safari > Chia sẻ > Thêm vào MH chính.
+          files: |
+            out/android/*.apk
+            out/windows/*.exe
