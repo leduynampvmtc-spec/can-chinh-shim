@@ -1,0 +1,22 @@
+{
+  "name": "Căn chỉnh Shim – Rim Face",
+  "short_name": "Căn chỉnh Shim",
+  "description": "Trường Cao đẳng Dầu khí (PV College) - Người viết ứng dụng: Giảng viên Lê Duy Nam",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EEF2F1",
+  "theme_color": "#26357F",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
